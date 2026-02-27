@@ -1,0 +1,4 @@
+node_modules/
+.claude-sync.json
+*.log
+.DS_Store
