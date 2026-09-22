@@ -1,62 +1,68 @@
-<div align="center">
+![Nicholas Ashkar — claude-config-sync](assets/nicholas-ashkar/banner.png)
 
 # claude-config-sync
 
-**Keep every developer's Claude Code rules, hooks, and settings in sync via a shared git repo.**
+Shares selected Claude project configuration through a Git repository.
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue?labelColor=0B0A09)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen?labelColor=0B0A09)](package.json)
 
-</div>
 
-## Install
 
-```bash
-npx github:NickCirv/claude-config-sync <command>
-```
 
-Or link it globally for repeated use:
 
-```bash
-npm install -g github:NickCirv/claude-config-sync
-```
+<a id="usage"></a>
 
-## Usage
+<a id="1-point-a-project-at-your-shared-config-repo"></a>
 
-```bash
-# 1. Point a project at your shared config repo
-npx github:NickCirv/claude-config-sync init git@github.com:your-org/claude-configs.git
+<a id="2-pull-shared-configs-into-this-project"></a>
 
-# 2. Pull shared configs into this project
-npx github:NickCirv/claude-config-sync pull
+<a id="3-after-editing-local-configs-push-them-back"></a>
 
-# 3. After editing local configs, push them back
-npx github:NickCirv/claude-config-sync push --message "add rate-limit rule"
-```
-
-| Command | Description |
-|---|---|
-| `init <repo-url>` | Link this project to a shared config repo (creates `.claude-sync.json`) |
-| `pull` | Pull latest configs from the shared repo into this project |
-| `push [-m <msg>]` | Push local config changes back to the shared repo |
-| `diff` | Show what differs between local and shared (`+` local-only, `-` shared-only, `~` modified) |
-| `status` | Report whether you are up-to-date, behind, ahead, or diverged |
-
-`init` accepts `-b, --branch <branch>` (default: `main`).
-
-## What it syncs
-
-| Path | How |
-|---|---|
-| `.claude/rules/*.md` | Copied verbatim (team-wide rules) |
-| `.claude/settings.json` | Smart-merged — shared keys added, local keys kept |
-| `CLAUDE.md` | Copied if a shared version exists |
-
-The smart merge means no developer loses personal overrides: shared-only keys are added, local-only keys are kept, conflicting keys keep the local value, and arrays are unioned (deduplicated).
+<a id="what-it-syncs"></a>
 
 ## What it does
 
-`claude-config-sync` lets a team manage Claude Code configuration the same way they manage code. One shared git repo acts as the source of truth for rules, hooks, and settings; each project runs `pull` to stay current and `push` to contribute changes back. No API keys, no servers — just git.
+- Shared-repository initialization.
+- Configured sync paths.
+- Settings merge.
+- Configuration diff and sync status.
 
----
-<sub>Node ≥18 · MIT · by <a href="https://github.com/NickCirv">NickCirv</a></sub>
+
+<a id="install"></a>
+
+## Quickstart
+
+Prerequisites: Node.js `>=18.0.0` and npm; Git is also used by the implementation. The checkout below pins the source used for this documentation.
+
+```sh
+git clone https://github.com/NickCirv/claude-config-sync.git
+cd claude-config-sync
+git checkout 833b7cdf21e2d9e2185aa03a5adf13c832026a85
+npm install
+node bin/sync.js --help
+```
+
+**Expected behavior (illustrative, not captured):** Shows init, pull, push, diff and status commands before a shared repository is configured.
+
+Examples are source-inspected, **not runtime-tested**. See the research record for verification gaps.
+
+## Boundaries and data
+
+Pull and push can change local configuration and a remote Git repository. Review shared rules/hooks before applying them. The merge strategy is not a conflict-free security boundary.
+
+## Development
+
+The manifest defines `npm test` as:
+
+```sh
+node --test
+```
+
+The captured suite is a smoke check, not end-to-end behavior coverage. Examples include “entry is valid JavaScript”, “--help exits 0”. Tests were not run for this documentation revision.
+
+See [implementation and command reference](docs/REFERENCE.md) for the package scripts and inspected interfaces, and [research record](docs/RESEARCH.md) for the pinned source, document decisions and unresolved checks.
+
+## License and contact
+
+See [LICENSE](LICENSE) for the original terms and attribution. Legal text is unchanged.
+
+[Nicholas Ashkar](https://nicholashkar.com/) · [Discuss a project](https://nicholashkar.com/#oxblood-contact)
